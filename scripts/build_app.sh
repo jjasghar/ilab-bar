@@ -9,7 +9,7 @@
 ################################################################################
 
 # Clean existing build artifacts
-rm -rf build/ dist/ ollama_bar.egg-info/
+rm -rf build/ dist/ ilab_bar.egg-info/
 
 # Perform a clean build of the application
 python setup.py py2app -A

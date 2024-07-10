@@ -5,8 +5,8 @@ Unit tests to cover CommandDisplayWindow
 from unittest import mock
 
 # Local
-from ollama_bar.command_display_window import CommandDisplayWindow
-import ollama_bar.command_display_window as command_display_window
+from ilab_bar.command_display_window import CommandDisplayWindow
+import ilab_bar.command_display_window as command_display_window
 
 
 class MockProcessMonitor:

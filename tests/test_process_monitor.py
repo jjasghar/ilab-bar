@@ -8,7 +8,7 @@ from unittest import mock
 import pytest
 
 # Local
-from ollama_bar.process_monitor import ProcessMonitor
+from ilab_bar.process_monitor import ProcessMonitor
 
 
 @pytest.mark.parametrize("stream_name", ["stdout", "stderr"])

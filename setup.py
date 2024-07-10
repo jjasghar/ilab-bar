@@ -8,14 +8,14 @@ Usage:
 # Third Party
 from setuptools import setup
 
-APP = ["ollama_bar/__main__.py"]
+APP = ["ilab_bar/__main__.py"]
 DATA_FILES = [
     (
-        "ollama_bar",
+        "ilab_bar",
         [
-            "ollama_bar/resources/ollama.png",
-            "ollama_bar/resources/on.svg",
-            "ollama_bar/resources/off.svg",
+            "ilab_bar/resources/ilab.png",
+            "ilab_bar/resources/on.svg",
+            "ilab_bar/resources/off.svg",
         ],
     ),
 ]

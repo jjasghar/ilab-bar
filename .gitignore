@@ -26,3 +26,5 @@ venv/
 
 # Setuptools scm version
 _version.py
+.eggs
+venv*

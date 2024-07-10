@@ -8,7 +8,7 @@ from unittest import mock
 import pytest
 
 # Local
-from ollama_bar.ollama_bar_app import OllamaBarApp
+from ilab_bar.ilab_bar_app import OllamaBarApp
 
 
 @pytest.fixture
@@ -17,7 +17,7 @@ def subprocess_popen_mock():
         yield subprocess_popen
 
 
-def test_ollama_bar_app_start_stop(subprocess_popen_mock):
+def test_ilab_bar_app_start_stop(subprocess_popen_mock):
     """Test that the app initializes stopped, and can toggle through start/stop"""
     app = OllamaBarApp()
     assert not app.running
@@ -37,7 +37,7 @@ def test_ollama_bar_app_start_stop(subprocess_popen_mock):
 
 
 @pytest.mark.parametrize("do_start", [True, False])
-def test_ollama_bar_stop_on_delete(subprocess_popen_mock, do_start):
+def test_ilab_bar_stop_on_delete(subprocess_popen_mock, do_start):
     """Test that the app stops when it's deleted IFF it was started"""
     app = OllamaBarApp()
     if do_start:

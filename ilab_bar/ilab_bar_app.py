@@ -5,18 +5,18 @@ import os
 import rumps
 
 # Local
-from ollama_bar.command_display_window import CommandDisplayWindow
-from ollama_bar.process_monitor import ProcessMonitor
+from ilab_bar.command_display_window import CommandDisplayWindow
+from ilab_bar.process_monitor import ProcessMonitor
+from ilab_bar.configuration_setup import configuration_setup
 
-
-class OllamaBarApp(rumps.App):
-    """App to run ollama in the macos menu bar"""
+class InstructLabBarApp(rumps.App):
+    """App to run ilab in the macos menu bar"""
 
     def __init__(self):
         super().__init__(
-            name="ollama-bar",
+            name="ilab-bar",
             title="",
-            icon=self._resource("ollama.png"),
+            icon=self._resource("ilab.png"),
         )
         # Add start/stop menu
         self._on_icon = self._resource("on.svg")
@@ -37,8 +37,8 @@ class OllamaBarApp(rumps.App):
         self._menu.add(self._stderr_menu)
         self._menu.add(None)
 
-        # Placeholder for the running ollama serve process
-        self._ollama_server_proc = None
+        # Placeholder for the running ilab serve process
+        self._ilab_server_proc = None
 
     def __del__(self):
         if self.running:
@@ -46,7 +46,7 @@ class OllamaBarApp(rumps.App):
 
     @property
     def running(self) -> bool:
-        return self._ollama_server_proc is not None
+        return self._ilab_server_proc is not None
 
     ##########
     ## Impl ##
@@ -54,21 +54,30 @@ class OllamaBarApp(rumps.App):
 
     _RESOURCE_ROOT = os.path.join(os.path.dirname(__file__), "resources")
 
+
     def _start_stop(self, sender: rumps.MenuItem | None) -> None:
-        if self._ollama_server_proc is None:
+
+        dot_config_path = os.path.join(os.environ.get('HOME'), '.config')
+        instruct_config_path = os.path.join(dot_config_path, 'instructlab')
+        instruct_config = os.path.join(instruct_config_path, 'config.yaml')
+
+        if self._ilab_server_proc is None:
             if sender is not None:
                 sender.title = "Stop"
                 sender.icon = self._on_icon
-            self._ollama_server_proc = ProcessMonitor("ollama serve")
-            self._stdout_window.set_process(self._ollama_server_proc)
-            self._stderr_window.set_process(self._ollama_server_proc)
-            self._ollama_server_proc.start()
+
+            configuration_setup()
+
+            self._ilab_server_proc = ProcessMonitor(f"cd {instruct_config_path} && instructlab --config={instruct_config} model serve")
+            self._stdout_window.set_process(self._ilab_server_proc)
+            self._stderr_window.set_process(self._ilab_server_proc)
+            self._ilab_server_proc.start()
         else:
             if sender is not None:
                 sender.title = "Start"
                 sender.icon = self._off_icon
-            self._ollama_server_proc.stop()
-            self._ollama_server_proc = None
+            self._ilab_server_proc.stop()
+            self._ilab_server_proc = None
 
     @classmethod
     def _resource(cls, name: str) -> str:
