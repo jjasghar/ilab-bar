@@ -1,18 +1,15 @@
 import os
 import subprocess
 
-# check for configuration file at ~/.config/instructlab/config.yaml
-# if file is not there create a sane default
-def configuration_setup():
+def download_models_setup():
     dot_config_path = os.path.join(os.environ.get('HOME'), '.config')
     instruct_config_path = os.path.join(dot_config_path, 'instructlab')
-    instruct_config = os.path.join(instruct_config_path, 'config.yaml')
+    instruct_models_path = os.path.join(dot_config_path, 'models')
 
-    if os.path.isfile(instruct_config):
+    if os.path.isfile(instruct_models_path):
         pass
     else:
-        if os.path.isfile(instruct_config_path) == None:
-            os.makedirs(instruct_config_path)
+        os.makedirs(instruct_models_path, exist_ok=True)
         os.chdir(instruct_config_path)
-        p = subprocess.Popen(f"/usr/local/bin/instructlab init --non-interactive", shell=True)
+        p = subprocess.Popen(f"ilab model download", shell=True)
         p.wait()

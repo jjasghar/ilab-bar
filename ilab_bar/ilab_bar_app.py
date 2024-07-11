@@ -8,6 +8,7 @@ import rumps
 from ilab_bar.command_display_window import CommandDisplayWindow
 from ilab_bar.process_monitor import ProcessMonitor
 from ilab_bar.configuration_setup import configuration_setup
+from ilab_bar.download_models_setup import download_models_setup
 
 class InstructLabBarApp(rumps.App):
     """App to run ilab in the macos menu bar"""
@@ -27,10 +28,10 @@ class InstructLabBarApp(rumps.App):
         self._menu.add(None)
 
         # Add the output displays
-        self._stdout_window = CommandDisplayWindow("stdout")
+        self._stdout_window = CommandDisplayWindow("stdout", max_lines=100)
         self._stdout_menu = rumps.MenuItem("stdout")
         self._stdout_menu.add(self._stdout_window)
-        self._stderr_window = CommandDisplayWindow("stderr")
+        self._stderr_window = CommandDisplayWindow("stderr", max_lines=100)
         self._stderr_menu = rumps.MenuItem("stderr")
         self._stderr_menu.add(self._stderr_window)
         self._menu.add(self._stdout_menu)
@@ -67,8 +68,9 @@ class InstructLabBarApp(rumps.App):
                 sender.icon = self._on_icon
 
             configuration_setup()
+            download_models_setup()
 
-            self._ilab_server_proc = ProcessMonitor(f"cd {instruct_config_path} && instructlab --config={instruct_config} model serve")
+            self._ilab_server_proc = ProcessMonitor(f"ilab --config={instruct_config} model serve", cwd=instruct_config_path)
             self._stdout_window.set_process(self._ilab_server_proc)
             self._stderr_window.set_process(self._ilab_server_proc)
             self._ilab_server_proc.start()

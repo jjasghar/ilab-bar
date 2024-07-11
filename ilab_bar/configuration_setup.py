@@ -11,8 +11,7 @@ def configuration_setup():
     if os.path.isfile(instruct_config):
         pass
     else:
-        if os.path.isfile(instruct_config_path) == None:
-            os.makedirs(instruct_config_path)
+        os.makedirs(instruct_config_path, exist_ok=True)
         os.chdir(instruct_config_path)
-        p = subprocess.Popen(f"/usr/local/bin/instructlab init --non-interactive", shell=True)
+        p = subprocess.Popen(f"instructlab init --non-interactive", shell=True)
         p.wait()

@@ -23,6 +23,7 @@ class ProcessMonitor:
         command: str,
         stdout_callbacks: list[_LINE_CALLBACK] | None = None,
         stderr_callbacks: list[_LINE_CALLBACK] | None = None,
+        **kwargs,
     ):
         self._command = command
         self._stdout_callbacks = stdout_callbacks or []
@@ -30,6 +31,7 @@ class ProcessMonitor:
         self._proc = None
         self._stdout_stream = None
         self._stderr_stream = None
+        self._kwargs = kwargs
 
     def __del__(self):
         self.stop()
@@ -49,6 +51,7 @@ class ProcessMonitor:
             shlex.split(self._command),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
+            **self._kwargs,
         )
 
         # Set up the stdout/stderr stream readers
